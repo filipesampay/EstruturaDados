@@ -1,0 +1,5 @@
+// Comments aula 11/08 Estrutura II
+
+-Ao usar uma implementação de lista em um vetor, tem o beneficio de acesso direto ao item, porém possui o problema da memória. Deve ser usada a alocação dinâmica.
+-Pilha insere e remove da mesma extremidade, sendo assim não precisa percorrer toda a estrutura.
+-Fila a inserção acontece no fim, e a remoção no inicio
