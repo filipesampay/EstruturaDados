@@ -84,11 +84,11 @@ int main(){
 
 void geraVetorAleatorio (int n, int v[]){
 	srand(time(NULL));
-	int Num=0
+	int Num=0;
 	
 	for (int I=0;I<n;I++){
 		Num = rand()%100;
-		V[n] = Num;
+		v[n] = Num;
 	}
 }
 
@@ -117,5 +117,105 @@ void geraVetorDecrescente (int n, int v[]){
 }
 
 int verificaOrdemCrescente (int n, int v[]){
-	return Num;
+    int Flag=0;
+    for (int I=1; I<n ; I++){
+        if (v[I]<=v[I-1])
+        {
+            Flag++;
+        }
+        
+    }
+    if (Flag == 0)
+    {
+        return 1;
+    }
+    return 0;
 }
+
+int verificaOrdemDecrescente (int n, int v[]){
+
+    int Flag = 0;
+    for (int I=0; I<n; I++){
+        if (v[I] >= v[I-1])
+        {
+            Flag++;
+        }
+        
+    }
+    if (Flag == 0)
+    {
+        return 1;
+    }
+    return 0;
+    
+}
+
+void ordenaInsercao (int n, int v[]){
+    for (int I=0;I<n;I++){
+        int ElementoAtual = v[I];
+        int J = I-1;
+
+        while (J>0 && v[J]>=ElementoAtual){
+            v[J+1] = v[J];
+            J--;
+        }
+
+        v[J+1] = ElementoAtual;
+    }
+}
+
+void ordenaSelecao (int n, int v[]){
+    for (int I=0;I<n;I++){
+        int IndiceMenor = I;
+
+        for(int J=1 + I; I<n; I++){
+            if(v[J] < v[IndiceMenor])
+                IndiceMenor = J;
+        }
+        int Aux = v[IndiceMenor];
+        v[IndiceMenor] = v[I];
+        v[I] = v[Aux];
+    }
+}
+
+void ordenaBolha (int n, int v[]){
+        for(int I=0; I<n ; I++){
+            int Troca = 0;
+
+            for (int J=0; J< n-I-1; J++){
+                if (v[J] > v[J+1])
+                {
+                    int Aux = v[J];
+                    v[J] = v[J+1];
+                    v[J+1] = Aux;
+                    Troca = 1;
+                }
+                
+            }
+            if (Troca == 0)
+            {
+                break;
+            }
+            
+        }
+    }
+
+void ordenaShell(int n, int v[]) {
+    int Intervalo, I, J, K, Aux;
+
+    for (Intervalo = n / 2; Intervalo > 0; Intervalo /= 2) {
+        for (I = Intervalo; I < n; I++) {
+            Aux = v[I];
+            J = I;
+
+            while (J >= Intervalo && v[J - Intervalo] > Aux) {
+                v[J] = v[J - Intervalo];
+                J -= Intervalo;
+            }
+
+            v[J] = Aux;
+        }
+    }
+}
+
+//nao foi
