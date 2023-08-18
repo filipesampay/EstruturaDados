@@ -81,23 +81,25 @@ int main(){
 	imprimeVetor (N,V);
 }
 
-
+// Função que gera um vetor com valores aleatórios no intervalo de 0 a 9.
 void geraVetorAleatorio (int n, int v[]){
 	srand(time(NULL));
 	int Num=0;
 	
 	for (int I=0;I<n;I++){
 		Num = rand()%100;
-		v[n] = Num;
+		v[I] = Num;
 	}
 }
 
+// Função que imprime os elementos de um vetor.
 void imprimeVetor (int n, int v[]){
 	for(int I=0;I<n;I++){
-		printf("%d", v[I]);
+		printf("%d ", v[I]);
 	}
 }
 
+// Função que gera um vetor em ordem crescente.
 void geraVetorCrescente (int n, int v[]){
 	int k = 0;
 	
@@ -107,6 +109,7 @@ void geraVetorCrescente (int n, int v[]){
 	}
 }
 
+// Função que gera um vetor em ordem decrescente.
 void geraVetorDecrescente (int n, int v[]){
 	int k=n;
 	
@@ -116,7 +119,10 @@ void geraVetorDecrescente (int n, int v[]){
 	}
 }
 
+// Função que verifica se um vetor está em ordem crescente.
+// Retorna 1 se o vetor estiver em ordem crescente, 0 caso contrário.
 int verificaOrdemCrescente (int n, int v[]){
+    
     int Flag=0;
     for (int I=1; I<n ; I++){
         if (v[I]<=v[I-1])
@@ -132,6 +138,8 @@ int verificaOrdemCrescente (int n, int v[]){
     return 0;
 }
 
+// Função que verifica se um vetor está em ordem decrescente.
+// Retorna 1 se o vetor estiver em ordem decrescente, 0 caso contrário.
 int verificaOrdemDecrescente (int n, int v[]){
 
     int Flag = 0;
@@ -150,6 +158,7 @@ int verificaOrdemDecrescente (int n, int v[]){
     
 }
 
+// Função que realiza a ordenação por inserção de um vetor.
 void ordenaInsercao (int n, int v[]){
     for (int I=0;I<n;I++){
         int ElementoAtual = v[I];
@@ -164,20 +173,23 @@ void ordenaInsercao (int n, int v[]){
     }
 }
 
-void ordenaSelecao (int n, int v[]){
-    for (int I=0;I<n;I++){
-        int IndiceMenor = I;
+// Função que realiza a ordenação por seleção direta de um vetor.
+void ordenaSelecao(int n, int v[]) {
+    for (int i = 0; i < n; i++) {
+        int indiceMenor = i;
 
-        for(int J=1 + I; I<n; I++){
-            if(v[J] < v[IndiceMenor])
-                IndiceMenor = J;
+        for (int j = i + 1; j < n; j++) {  
+            if (v[j] < v[indiceMenor])
+                indiceMenor = j;
         }
-        int Aux = v[IndiceMenor];
-        v[IndiceMenor] = v[I];
-        v[I] = v[Aux];
+        
+        int aux = v[indiceMenor];
+        v[indiceMenor] = v[i];
+        v[i] = aux;
     }
 }
 
+// Função que realiza a ordenação por bolha de um vetor.
 void ordenaBolha (int n, int v[]){
         for(int I=0; I<n ; I++){
             int Troca = 0;
@@ -200,6 +212,7 @@ void ordenaBolha (int n, int v[]){
         }
     }
 
+// Função que realiza a ordenação por shellsort de um vetor.
 void ordenaShell(int n, int v[]) {
     int Intervalo, I, J, K, Aux;
 
@@ -218,4 +231,117 @@ void ordenaShell(int n, int v[]) {
     }
 }
 
-//nao foi
+
+void merge(int v[], int inicio, int meio, int fim) {
+    int *temp, p1, p2, tamanho, i, j, k;
+    int fim1 = 0, fim2 = 0;
+
+    tamanho = fim - inicio + 1;
+    p1 = inicio;
+    p2 = meio + 1;
+    temp = (int *)malloc(tamanho * sizeof(int));
+    if (temp != NULL) {
+        for (i = 0; i < tamanho; i++) {
+            if (!fim1 && !fim2) {
+                if (v[p1] < v[p2]) {
+                    temp[i] = v[p1++];
+                } else {
+                    temp[i] = v[p2++];
+                }
+                if (p1 > meio) fim1 = 1;
+                if (p2 > fim) fim2 = 1;
+            } else {
+                if (!fim1) {
+                    temp[i] = v[p1++];
+                } else {
+                    temp[i] = v[p2++];
+                }
+            }
+        }
+        for (j = 0, k = inicio; j < tamanho; j++, k++) {
+            v[k] = temp[j];
+        }
+    }
+    free(temp);
+}
+
+void ordenaMergeRec(int v[], int inicio, int fim) {
+    if (inicio < fim) {
+        int meio = (inicio + fim) / 2;
+        ordenaMergeRec(v, inicio, meio);
+        ordenaMergeRec(v, meio + 1, fim);
+        merge(v, inicio, meio, fim);
+    }
+}
+
+// Função que realiza a ordenação por mergesort de um vetor.
+void ordenaMerge(int n, int v[]) {
+    ordenaMergeRec(v, 0, n - 1);
+}
+
+// Método de ordenação HeapSort
+void heapify(int v[], int n, int i) {
+    int maior = i;
+    int esq = 2 * i + 1;
+    int dir = 2 * i + 2;
+
+    if (esq < n && v[esq] > v[maior])
+        maior = esq;
+
+    if (dir < n && v[dir] > v[maior])
+        maior = dir;
+
+    if (maior != i) {
+        int temp = v[i];
+        v[i] = v[maior];
+        v[maior] = temp;
+        heapify(v, n, maior);
+    }
+}
+
+// Função que realiza a ordenação por heapsort de um vetor.
+void ordenaHeap(int n, int v[]) {
+    for (int i = n / 2 - 1; i >= 0; i--)
+        heapify(v, n, i);
+
+    for (int i = n - 1; i >= 0; i--) {
+        int temp = v[0];
+        v[0] = v[i];
+        v[i] = temp;
+        heapify(v, i, 0);
+    }
+}
+
+// Método de ordenação QuickSort
+int particiona(int v[], int inicio, int fim) {
+    int pivo = v[fim];
+    int i = inicio - 1;
+
+    for (int j = inicio; j <= fim - 1; j++) {
+        if (v[j] < pivo) {
+            i++;
+            int temp = v[i];
+            v[i] = v[j];
+            v[j] = temp;
+        }
+    }
+
+    int temp = v[i + 1];
+    v[i + 1] = v[fim];
+    v[fim] = temp;
+
+    return i + 1;
+}
+
+void ordenaQuickRec(int v[], int inicio, int fim) {
+    if (inicio < fim) {
+        int pi = particiona(v, inicio, fim);
+        ordenaQuickRec(v, inicio, pi - 1);
+        ordenaQuickRec(v, pi + 1, fim);
+    }
+}
+
+// Função que realiza a ordenação por quicksort de um vetor.
+void ordenaQuick(int n, int v[]) {
+    ordenaQuickRec(v, 0, n - 1);
+}
